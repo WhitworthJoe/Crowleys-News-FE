@@ -1,6 +1,137 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+  background-color: #dfd3c3;
+  color: #36434b;
+}
+
+body {
+  background-color: #dfd3c3;
+}
+
+.header-bar {
+  background-color: #c7b198;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+.logo {
+  width: 150px
+}
+
+.profile-button {
+  width: 50px;  
+  margin-left: 20px;
+}
+
+.searchBar {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+}
+
+#search-bar {
+  width: 50%;
+}
+
+.top-articles-display ul,
+.all-articles-display ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.top-articles-display li,
+.all-articles-display li {
+  flex: 150px 1; /* Allow cards to grow and shrink based on available space */
+  margin: 10px;
+  max-width: 300px; /* Limit the maximum width of each card */
+}
+
+.article-card-background {
+  background-color: #c7b198;
+  padding-bottom: 1%;
+}
+
+.article-card {
+  display: contents;
+}
+
+.article-card p {
+  margin-bottom: 5px;
+  line-height: .5;
+}
+
+.article-card h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+
+.article-card-img {
+  max-width: 95%;
+  margin-top: 3%;
+  height: auto;
+}
+
+.see-all-button {
+  background-color: #596e79;
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .header-bar {
+    padding: 20px;
+    flex-direction: row;
+  }
+
+  .logo {
+    width: 200px;
+  }
+
+  .profile-button {
+    width: 70px;
+    margin-left: 30px;
+  }
+
+  .searchBar {
+    bottom: 10px;
+    font-size: 1.2em;
+  }
+
+  .article-card p {
+    line-height: 1.6;
+  }
+
+  .article-card-img {
+    max-width: 95%;
+    margin-top: 3%;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header-bar {
+    padding: 30px;
+  }
+
+  .logo {
+    width: 250px;
+  }
+
+  .profile-button {
+    width: 90px;
+    margin-left: 40px;
+  }
+
+  .searchBar {
+    font-size: 1.5em; /* Further adjusted font size for larger screens */
+  }
 }
