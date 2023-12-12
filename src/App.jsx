@@ -4,21 +4,30 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./Components/Header";
 import ArticlePage from "./Components/articlesPage";
+import SelectedArticle from "./Components/selectedArticlePage";
+import fetchArticles from "./api";
 
 function App() {
   const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchArticles = () => {
-      fetch("https://crowleysnewsapi.onrender.com/api/articles?limit=200")
-        .then((resonse) => resonse.json())
-        .then((data) => {
-          setArticles(data);
-        })
-        .catch((error) => console.error("Error fetching articles:", error));
-    };
-    fetchArticles();
-  }, []);
+    const fetchData = () => {
+      setIsLoading(true)
+      fetchArticles()
+      .then((data) => {
+        setArticles(data)
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+    }
+
+  fetchData()
+  }, [])
 
   return (
     <Router>
@@ -28,7 +37,11 @@ function App() {
           element={
             <div>
               <Header />
-              <MainPage articles={articles} />
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <MainPage articles={articles} />
+              )}
             </div>
           }
         />
@@ -37,15 +50,19 @@ function App() {
           element={
             <div>
               <Header />
-              <ArticlePage articles={articles}/>
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <ArticlePage articles={articles}/>
+              )}
             </div>
           }
         />
+        <Route 
+        path="/articles/:articleId" element={<SelectedArticle />} />
       </Routes>
     </Router>
   );
 }
-import ArticlesPage from "./Components/articlesPage";
-import ArticleCard from "./Components/articleCard";
 
 export default App;

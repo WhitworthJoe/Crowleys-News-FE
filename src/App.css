@@ -50,9 +50,8 @@ body {
 
 .top-articles-display li,
 .all-articles-display li {
-  flex: 150px 1; /* Allow cards to grow and shrink based on available space */
-  margin: 10px;
-  max-width: 300px; /* Limit the maximum width of each card */
+  flex: 200px 1; 
+  max-width: 300px;
 }
 
 .article-card-background {
@@ -132,6 +131,6 @@ body {
   }
 
   .searchBar {
-    font-size: 1.5em; /* Further adjusted font size for larger screens */
+    font-size: 1.5em;
   }
 }
