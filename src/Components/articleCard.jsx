@@ -14,7 +14,7 @@ const ArticleCard = ({ article }) => {
   return (
     <div className="article-card-background">
       <div className="article-card">
-        <Link to={`/article/${article.article_id}`}>
+        <Link to={`/articles/${article.article_id}`}>
           <img
             className="article-card-img"
             src={article.article_img_url}

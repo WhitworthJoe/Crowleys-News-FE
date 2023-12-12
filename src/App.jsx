@@ -5,29 +5,29 @@ import "./App.css";
 import Header from "./Components/Header";
 import ArticlePage from "./Components/articlesPage";
 import SelectedArticle from "./Components/selectedArticlePage";
-import fetchArticles from "./api";
+import {fetchArticles} from "./api";
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = () => {
-      setIsLoading(true)
+      setIsLoading(true);
       fetchArticles()
-      .then((data) => {
-        setArticles(data)
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
-    }
+        .then((data) => {
+          setArticles(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    };
 
-  fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <Router>
@@ -37,11 +37,7 @@ function App() {
           element={
             <div>
               <Header />
-              {isLoading ? (
-                <p>Loading...</p>
-              ) : (
-                <MainPage articles={articles} />
-              )}
+              {isLoading ? <p>Loading...</p> : <MainPage articles={articles} />}
             </div>
           }
         />
@@ -53,13 +49,24 @@ function App() {
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
-                <ArticlePage articles={articles}/>
+                <ArticlePage articles={articles} />
               )}
             </div>
           }
         />
-        <Route 
-        path="/articles/:articleId" element={<SelectedArticle />} />
+        <Route
+          path="/articles/:articleId"
+          element={
+            <div>
+              <Header />
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <SelectedArticle fetchArticles={fetchArticles} />
+              )}
+            </div>
+          }
+        />
       </Routes>
     </Router>
   );
