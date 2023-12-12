@@ -52,6 +52,7 @@ body {
 .all-articles-display li {
   flex: 200px 1; 
   max-width: 300px;
+  margin-bottom: 5%;
 }
 
 .article-card-background {

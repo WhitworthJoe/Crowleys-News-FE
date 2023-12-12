@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { downVoteArticle, fetchArticles, upVoteArticle } from "../api";
+import {
+  downVoteArticle,
+  fetchArticles,
+  fetchComments,
+  upVoteArticle,
+} from "../api";
+import Comments from "./comments";
 
 const SelectedArticle = ({ fetchArticles }) => {
   const { articleId } = useParams();
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [voteType, setVoteType] = useState(null);
+  const [comments, setComments] = useState([]);
 
   const formattedDate = new Date(selectedArticle.created_at).toLocaleDateString(
     "en-uk",
@@ -18,11 +25,11 @@ const SelectedArticle = ({ fetchArticles }) => {
   );
 
   const handleUpVote = () => {
-    if (!voteType || voteType === 'downvote') {
+    if (!voteType || voteType === "downvote") {
       upVoteArticle(articleId)
         .then((updatedArticle) => {
           setSelectedArticle(updatedArticle);
-          setVoteType('upvote');
+          setVoteType("upvote");
         })
         .catch((error) => {
           console.error("Error upvoting article:", error);
@@ -31,11 +38,11 @@ const SelectedArticle = ({ fetchArticles }) => {
   };
 
   const handleDownVote = () => {
-    if (!voteType || voteType === 'upvote') {
+    if (!voteType || voteType === "upvote") {
       downVoteArticle(articleId)
         .then((updatedArticle) => {
           setSelectedArticle(updatedArticle);
-          setVoteType('downvote')
+          setVoteType("downvote");
         })
         .catch((error) => {
           console.error("Error downvoting article:", error);
@@ -58,8 +65,19 @@ const SelectedArticle = ({ fetchArticles }) => {
           setIsLoading(false);
         });
     };
+    const fetchArticleComments = () => {
+      fetchComments(articleId)
+        .then((data) => {
+          setComments(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching comments:", error);
+        });
+    };
+
     fetchSelectedArticle();
-  }, [articleId]);
+    fetchArticleComments();
+  }, [articleId, fetchArticles]);
 
   return (
     <div className="selected-article-background">
@@ -74,11 +92,21 @@ const SelectedArticle = ({ fetchArticles }) => {
         />
         <p>{selectedArticle.body}</p>
         <p>Topic: {selectedArticle.topic}</p>
-        <p>{selectedArticle.votes} {selectedArticle.votes === 1 ? 'Vote!' : 'Votes!'}</p>
+        <p>
+          {selectedArticle.votes}{" "}
+          {selectedArticle.votes === 1 ? "Vote!" : "Votes!"}
+        </p>
       </div>
-      <button onClick={handleUpVote} disabled={voteType === 'upvote'}>👍</button>
-        <button onClick={handleDownVote} disabled={voteType === 'downvote'}>👎</button>
-        {voteType && <p>Your current vote: {voteType === 'upvote' ? 'UP' : 'DOWN'}</p>}
+      <button onClick={handleUpVote} disabled={voteType === "upvote"}>
+        👍
+      </button>
+      <button onClick={handleDownVote} disabled={voteType === "downvote"}>
+        👎
+      </button>
+      {voteType && (
+        <p>Your current vote: {voteType === "upvote" ? "UP" : "DOWN"}</p>
+      )}
+      <Comments comments={comments} />
     </div>
   );
 };

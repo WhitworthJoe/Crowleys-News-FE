@@ -6,10 +6,12 @@ import Header from "./Components/Header";
 import ArticlePage from "./Components/articlesPage";
 import SelectedArticle from "./Components/selectedArticlePage";
 import {fetchArticles} from "./api";
+import Comments from "./Components/comments";
 
 function App() {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchData = () => {

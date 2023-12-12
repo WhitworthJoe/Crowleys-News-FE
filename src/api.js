@@ -1,4 +1,4 @@
-const fetchArticles = (articleId = null) => {
+const fetchArticles = (articleId) => {
   let url = "https://crowleysnewsapi.onrender.com/api/articles?limit=200";
 
   if (articleId) {
@@ -11,6 +11,16 @@ const fetchArticles = (articleId = null) => {
       throw new Error(`Error fetching articles: ${error.message}`);
     });
 };
+
+const fetchComments = (articleId) => {
+  const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}/comments`
+
+  return fetch(url)
+  .then((response) => response.json())
+  .catch((error) => {
+    throw new Error(`Error fetching comments: ${error.message}`)
+  })
+}
 
 const upVoteArticle = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`
@@ -44,4 +54,4 @@ const downVoteArticle = (articleId) => {
   })
 }
   
-export { fetchArticles, upVoteArticle, downVoteArticle };
+export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments };
