@@ -8,7 +8,7 @@ const MainPage = ({ articles }) => {
 
   return (
     <div className="top-article-display">
-      <h2>This weeks top columns:</h2>
+      <h2>This weeks top 5 columns:</h2>
       <Top5Display top5Articles={top5Articles} />
       <SeeAllButton />
     </div>
