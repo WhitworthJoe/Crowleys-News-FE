@@ -38,6 +38,7 @@ const SelectedArticle = ({ fetchArticles }) => {
           setIsLoading(false);
         });
     };
+    
     const fetchArticleComments = () => {
       fetchComments(articleId)
         .then((data) => {
@@ -45,7 +46,10 @@ const SelectedArticle = ({ fetchArticles }) => {
         })
         .catch((error) => {
           console.error("Error fetching comments:", error);
-        });
+        })
+        .finally(() => {
+            setIsLoading(false);
+          });
     };
 
     fetchSelectedArticle();

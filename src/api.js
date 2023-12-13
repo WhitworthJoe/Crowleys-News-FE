@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const fetchArticles = (articleId) => {
   let url = "https://crowleysnewsapi.onrender.com/api/articles?limit=200";
 
@@ -5,8 +7,8 @@ const fetchArticles = (articleId) => {
     url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`;
   }
 
-  return fetch(url)
-    .then((response) => response.json())
+  return axios.get(url)
+    .then((response) => response.data)
     .catch((error) => {
       throw new Error(`Error fetching articles: ${error.message}`);
     });
@@ -15,8 +17,8 @@ const fetchArticles = (articleId) => {
 const fetchComments = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}/comments`
 
-  return fetch(url)
-  .then((response) => response.json())
+  return axios.get(url)
+  .then((response) => response.data)
   .catch((error) => {
     throw new Error(`Error fetching comments: ${error.message}`)
   })
@@ -25,14 +27,8 @@ const fetchComments = (articleId) => {
 const upVoteArticle = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`
 
-  return fetch(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({inc_votes: 1})
-  })
-  .then((response) => response.json())
+  return axios.patch(url, { inc_votes: 1})
+  .then((response) => response.data)
   .catch((error) => {
     throw new Error(`Error upvoting article: ${error.message}`)
   })
@@ -41,14 +37,8 @@ const upVoteArticle = (articleId) => {
 const downVoteArticle = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`
 
-  return fetch(url, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({inc_votes: -1})
-  })
-  .then((response) => response.json())
+  return axios.patch(url, { inc_votes: -1 })
+  .then((response) => response.data)
   .catch((error) => {
     throw new Error(`Error upvoting article: ${error.message}`)
   })
