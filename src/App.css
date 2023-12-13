@@ -139,6 +139,30 @@ body {
   color: red;
 }
 
+.new-comment-form {
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.comment-input {
+  background-color: #f0ece2;
+  margin-top: 5%;
+  height: 35px;
+  width: 90%;
+  font-size: 15px;
+  margin-bottom: 10%;
+}
+
+.new-comment-form button{
+  position: absolute;
+  right: 6%;
+  bottom: 0;
+  
+}
+
+
 @media screen and (min-width: 768px) {
   .header-bar {
     padding: 20px;

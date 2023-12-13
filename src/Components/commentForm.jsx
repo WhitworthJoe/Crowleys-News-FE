@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 const CommentForm = ({ onAddComment }) => {
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,14 +43,23 @@ const CommentForm = ({ onAddComment }) => {
               setIsSubmitting(false);
             }
           };
+    
+          const handleKeyPress = (event) => {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                handleSubmit(event)
+            }
+          }
         
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="new-comment-form" onSubmit={handleSubmit}>
       <label>
         <textarea
+          className="comment-input"
           value={newComment}
           onChange={handleCommentChange}
+          onKeyDown={handleKeyPress}
           placeholder="Type your comment here..."
           required
         />
