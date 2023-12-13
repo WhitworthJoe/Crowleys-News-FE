@@ -1,7 +1,8 @@
-import React from "react";
-import "./commentCard.css";
+import React, { useState } from "react";
+import "./commentsDesign.css"
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, onDeleteComment, signedInUser }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
   const formattedDate = new Date(comment.created_at).toLocaleDateString(
     "en-uk",
     {
@@ -10,6 +11,11 @@ const CommentCard = ({ comment }) => {
       day: "numeric",
     }
   );
+
+  const handleDelete = () => {
+    setIsDeleting(true);
+    onDeleteComment(comment.comment_id);
+  }
 
   return (
     <div className="comment-card">
@@ -21,6 +27,11 @@ const CommentCard = ({ comment }) => {
         <p>{comment.body}</p>
       </div>
       <p>Votes: {comment.votes}</p>
+      {signedInUser && signedInUser.username === comment.author && (
+        <button onClick={handleDelete} disabled={isDeleting}>
+          {isDeleting ? "Deleting..." : "Delete"}
+        </button>
+      )}
     </div>
   );
 };

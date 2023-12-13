@@ -24,6 +24,28 @@ const fetchComments = (articleId) => {
   })
 }
 
+const postComment = (articleId, commentWithUser) => {
+  const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}/comments`
+  const usernameInput = commentWithUser.username
+  const bodyInput = commentWithUser.body
+  return axios.post(url, {
+    username: usernameInput,
+    body: bodyInput
+  })
+  .then((response) => {
+    if (response.data.postedComment) {
+      return response.data.postedComment
+    } else {
+      throw new Error("Invalid response format")
+    }
+  })
+}
+
+const deleteComment = (comment_id) => {
+  const url = `https://crowleysnewsapi.onrender.com/api/comments/${comment_id}`
+  return axios.delete(url)
+}
+
 const upVoteArticle = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`
 
@@ -44,4 +66,4 @@ const downVoteArticle = (articleId) => {
   })
 }
   
-export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments };
+export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment, deleteComment };
