@@ -8,7 +8,6 @@ const Comments = ({ comments }) => {
 
   return (
     <div>
-      <h2 className="comments-header">Comments</h2>
       {hasComments ? (
         <div className="comment-card-container">
           <ul className="comment-card-list">
