@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchComments, postComment } from "../api";
+import { deleteComment, fetchComments, postComment } from "../api";
 import Comments from "./comments";
 import VoteButtons from "./VoteButtons";
 import CommentForm from "./commentForm";
@@ -13,9 +13,10 @@ const SelectedArticle = ({ fetchArticles }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
+  const [forceRerender, setForceRerender] = useState(false)
 
   const hardcodedUser = {
-    username: "hardcodedUser"
+    username: "grumpy19"
   }
 
   const formattedDate = new Date(selectedArticle.created_at).toLocaleDateString(
@@ -41,11 +42,37 @@ const SelectedArticle = ({ fetchArticles }) => {
             [data.comment_id]: [data],
         }))
         toast.success('Comment posted successfully!')
+        setForceRerender((prev) => !prev)
     })
     .catch((error) => {
         console.error('Error posting comment:', error)
         toast.error('Error posting comment. Please try again.')
     })
+  }
+
+  const handleDeleteComment = (comment_id, commentAuthor) => {
+    const signedInUser = hardcodedUser
+    const isAuthor = signedInUser.username === commentAuthor.author;
+
+    if (isAuthor){
+        deleteComment(comment_id)
+    .then(() => {
+        toast.success('Comment deleted successfully!')
+        setComments((prevComments) => {
+            const updatedComments = {...prevComments};
+            delete updatedComments[comment_id];
+            return {...updatedComments};
+        })
+        setForceRerender((prev) => !prev)
+    })
+    .catch((error) => {
+        console.error('Error deleting comment:', error)
+        toast.error('Error deleting comment. Please try again.')
+    })
+    } else {
+        toast.error('You can only delete your own comments.')
+    }
+    
   }
 
   useEffect(() => {
@@ -78,7 +105,7 @@ const SelectedArticle = ({ fetchArticles }) => {
 
     fetchSelectedArticle();
     fetchArticleComments();
-  }, [articleId, fetchArticles]);
+  }, [articleId, fetchArticles, forceRerender]);
 
   return (
     <div className="selected-article-background">
@@ -111,7 +138,11 @@ const SelectedArticle = ({ fetchArticles }) => {
       <h2 className="comments-header">Comments</h2>
       <CommentForm onAddComment={handleAddComment} />
       <ToastContainer />
-      {isLoading ? <p>Loading...</p> : <Comments comments={comments} />}
+      {isLoading ? <p>Loading...</p> : 
+      <Comments 
+      comments={comments}
+      onDeleteComment={handleDeleteComment}
+      signedInUser={hardcodedUser}/>}
     </div>
   );
 };

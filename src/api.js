@@ -41,6 +41,11 @@ const postComment = (articleId, commentWithUser) => {
   })
 }
 
+const deleteComment = (comment_id) => {
+  const url = `https://crowleysnewsapi.onrender.com/api/comments/${comment_id}`
+  return axios.delete(url)
+}
+
 const upVoteArticle = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`
 
@@ -61,4 +66,4 @@ const downVoteArticle = (articleId) => {
   })
 }
   
-export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment };
+export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment, deleteComment };
