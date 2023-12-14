@@ -5,8 +5,7 @@ import "./App.css";
 import Header from "./Components/Header";
 import ArticlePage from "./Components/articlesPage";
 import SelectedArticle from "./Components/selectedArticlePage";
-import {fetchArticles} from "./api";
-
+import { fetchArticles } from "./api";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -56,6 +55,19 @@ function App() {
           }
         />
         <Route
+          path="/articles?topic=:topic"
+          element={
+            <div>
+              <Header />
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <ArticlePage articles={articles} />
+              )}
+            </div>
+          }
+        ></Route>
+        <Route
           path="/articles/:articleId"
           element={
             <div>
@@ -63,7 +75,7 @@ function App() {
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
-                <SelectedArticle fetchArticles={fetchArticles}/>
+                <SelectedArticle fetchArticles={fetchArticles} />
               )}
             </div>
           }
