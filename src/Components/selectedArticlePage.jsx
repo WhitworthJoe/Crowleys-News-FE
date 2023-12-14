@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { deleteComment, fetchComments, postComment } from "../api";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteComment, fetchArticleById, fetchComments, postComment } from "../api";
 import Comments from "./comments";
 import VoteButtons from "./VoteButtons";
 import CommentForm from "./commentForm";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SelectedArticle = ({ fetchArticles }) => {
+const SelectedArticle = () => {
   const { articleId } = useParams();
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -87,7 +87,7 @@ const SelectedArticle = ({ fetchArticles }) => {
     const fetchSelectedArticle = () => {
       setIsLoading(true)
 
-      fetchArticles(articleId)
+      fetchArticleById(articleId)
         .then((data) => {
           setSelectedArticle(data);
         })
@@ -118,7 +118,7 @@ const SelectedArticle = ({ fetchArticles }) => {
 
     fetchSelectedArticle();
     fetchArticleComments();
-  }, [articleId, fetchArticles, forceRerender]);
+  }, [articleId, forceRerender]);
 
   return (
     <div className="selected-article-background">
