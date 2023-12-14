@@ -1,18 +1,30 @@
 import axios from 'axios'
 
-const fetchArticles = (articleId) => {
+const fetchArticles = (sortBy, order, topic) => {
   let url = "https://crowleysnewsapi.onrender.com/api/articles?limit=200";
 
-  if (articleId) {
-    url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`;
-  }
-
-  return axios.get(url)
+  return axios.get(url, {
+    params: {
+      sort_by: sortBy,
+      order: order,
+      topic: topic
+    },
+  })
     .then((response) => response.data)
     .catch((error) => {
       throw new Error(`Error fetching articles: ${error.message}`);
     });
 };
+
+const fetchArticleById = (articleId) => {
+  let url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`;
+
+  return axios.get(url)
+  .then((response) => response.data)
+    .catch((error) => {
+      throw new Error(`Error fetching articles: ${error.message}`);
+    });
+}
 
 const fetchComments = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}/comments`
@@ -66,4 +78,4 @@ const downVoteArticle = (articleId) => {
   })
 }
   
-export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment, deleteComment };
+export { fetchArticleById, fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment, deleteComment };
