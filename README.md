@@ -1,4 +1,4 @@
-# Crowley's News Frontend
+# Crowley's News Front end
 
 ## Overview
 
