@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const fetchArticles = (articleId, sortBy, sortOrder) => {
-  console.log("Fetch Articles:", articleId, sortBy, sortOrder);
   let url = "https://crowleysnewsapi.onrender.com/api/articles?limit=200";
 
   if (articleId) {

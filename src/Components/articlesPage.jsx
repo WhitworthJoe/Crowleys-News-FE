@@ -47,21 +47,11 @@ const ArticlesPage = ({ articles }) => {
   }, [topic, articles, sortBy, sortOrder]);
 
   useEffect(() => {
-    console.log(
-      "Navigating with:",
-      "topic:",
-      topic,
-      "| sort_by",
-      sortBy,
-      "| sort_order:",
-      sortOrder
-    );
     navigate(`?topic=${topic}&sort=${sortBy}&order=${sortOrder}`);
   }, [topic, sortBy, sortOrder, navigate]);
 
   const handleSortChange = (event) => {
     const { name, value } = event.target;
-    console.log({ name, value });
     if (name === "sortBy") {
       setSortBy(value);
     } else if (name === "sortOrder" || name === "order") {
