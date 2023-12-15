@@ -6,6 +6,7 @@ import Header from "./Components/Header";
 import ArticlePage from "./Components/articlesPage";
 import SelectedArticle from "./Components/selectedArticlePage";
 import { fetchArticles } from "./api";
+import NotFound from "./Components/NotFound";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -80,6 +81,11 @@ function App() {
             </div>
           }
         />
+        <Route path="*" element={
+        <div>
+          <Header />
+          <NotFound />
+          </div>} />
       </Routes>
     </Router>
   );
