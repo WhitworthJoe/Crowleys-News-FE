@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import profile_img from "../assets/MarketplaceProfileLogo.png";
 
 const Header = () => {
+  const hardcoderUser = "grumpy19"
+
   return (
     <div className="header-container">
       <div className="logo">
@@ -16,6 +18,9 @@ const Header = () => {
             src={profile_img}
             alt="Profile Button"
           />
+        </div>
+        <div className="signed_in_as">
+          Signed in as: {hardcoderUser}
         </div>
       <div className="header-topics">
         <Link to="/articles">
