@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { deleteComment, fetchArticleById, fetchComments, postComment } from "../api";
+import { useParams } from "react-router-dom";
+import { deleteComment, fetchComments, postComment } from "../api";
 import Comments from "./comments";
 import VoteButtons from "./VoteButtons";
 import CommentForm from "./commentForm";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SelectedArticle = () => {
+const SelectedArticle = ({ fetchArticles }) => {
   const { articleId } = useParams();
   const [selectedArticle, setSelectedArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -87,13 +87,18 @@ const SelectedArticle = () => {
     const fetchSelectedArticle = () => {
       setIsLoading(true)
 
-      fetchArticleById(articleId)
+      fetchArticles(articleId)
         .then((data) => {
-          setSelectedArticle(data);
+          if (!data || !data.title) {
+            setError('Article not found. Please check the article ID.');
+          } else {
+            setSelectedArticle(data);
+            setError(null);
+          }
         })
         .catch((error) => {
           console.error("Error fetching selected article:", error);
-          toast.error('Error fetching selected article. Please try again.');
+          setError('Error fetching selected article. Please try again.');
         })
         .finally(() => {
           setIsLoading(false);
@@ -118,7 +123,7 @@ const SelectedArticle = () => {
 
     fetchSelectedArticle();
     fetchArticleComments();
-  }, [articleId, forceRerender]);
+  }, [articleId, fetchArticles, forceRerender]);
 
   return (
     <div className="selected-article-background">
@@ -126,6 +131,7 @@ const SelectedArticle = () => {
         <p>Loading...</p>
       ) : (
         <div className="selected-article-card">
+          {error && <p className="error">{error}</p>}
           <h2>{selectedArticle.title}</h2>
           <p>Posted by: {selectedArticle.author}</p>
           <p id="selected-article-date">{formattedDate}</p>
@@ -147,7 +153,7 @@ const SelectedArticle = () => {
         onVote={handleVote}
         selectedArticle={selectedArticle}
       />
-      {error && <p className="error">{error}</p>}
+      
       <h2 className="comments-header">Comments</h2>
       <CommentForm onAddComment={handleAddComment} />
       <ToastContainer />

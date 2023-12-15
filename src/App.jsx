@@ -5,7 +5,7 @@ import "./App.css";
 import Header from "./Components/Header";
 import ArticlePage from "./Components/articlesPage";
 import SelectedArticle from "./Components/selectedArticlePage";
-import { fetchArticleById, fetchArticles } from "./api";
+import { fetchArticles } from "./api";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -75,7 +75,7 @@ function App() {
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
-                <SelectedArticle fetchArticlesById={fetchArticleById} />
+                <SelectedArticle fetchArticles={fetchArticles} />
               )}
             </div>
           }

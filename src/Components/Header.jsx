@@ -31,9 +31,9 @@ const Header = () => {
             <p>Cooking</p>
         </Link>
       </div>
-      <div className="searchBar">
+      {/* <div className="searchBar">
         <input type="text" placeholder="Search Articles" id="search-bar" />
-      </div>
+      </div> */}
     </div>
   );
 };

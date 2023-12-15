@@ -1,30 +1,27 @@
 import axios from 'axios'
 
-const fetchArticles = (sortBy, order, topic) => {
+const fetchArticles = (articleId, sortBy, sortOrder) => {
+  console.log("Fetch Articles:", articleId, sortBy, sortOrder);
   let url = "https://crowleysnewsapi.onrender.com/api/articles?limit=200";
 
-  return axios.get(url, {
-    params: {
-      sort_by: sortBy,
-      order: order,
-      topic: topic
-    },
-  })
+  if (articleId) {
+    url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`;
+  }
+
+  if (sortBy) {
+    url += `&sort_by=${sortBy}`;
+  }
+
+  if (sortOrder) {
+    url += `&order=${sortOrder}`;
+  }
+
+  return axios.get(url)
     .then((response) => response.data)
     .catch((error) => {
       throw new Error(`Error fetching articles: ${error.message}`);
     });
 };
-
-const fetchArticleById = (articleId) => {
-  let url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}`;
-
-  return axios.get(url)
-  .then((response) => response.data)
-    .catch((error) => {
-      throw new Error(`Error fetching articles: ${error.message}`);
-    });
-}
 
 const fetchComments = (articleId) => {
   const url = `https://crowleysnewsapi.onrender.com/api/articles/${articleId}/comments`
@@ -78,4 +75,4 @@ const downVoteArticle = (articleId) => {
   })
 }
   
-export { fetchArticleById, fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment, deleteComment };
+export { fetchArticles, upVoteArticle, downVoteArticle, fetchComments, postComment, deleteComment };
